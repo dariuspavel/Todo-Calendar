@@ -1,0 +1,36 @@
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 columns for days of the week */
+    gap: 10px; /* Space between grid items */
+  }
+  
+.calendar-day {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+  
+.box-note{
+  position: absolute;
+  top: 5%;
+  left: 30%;
+  width: 50rem;
+  height: 50rem;
+  background-color: red;
+}
+
+.box-note-close-button{
+  position: absolute;
+  margin-left: .3rem;
+  margin-top: .3rem;
+}
+
+.box-note-close-button button{
+  width: 2rem;
+  height: 2rem;
+}
+
+.box-note-close-button p{
+  margin: 0;
+}
