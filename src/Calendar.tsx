@@ -14,7 +14,7 @@ function DaysInMonth(year: number, month: number) {
   return new Date(year, month, 0).getDate();
 }
 
-function CreateTask({ task, updateTask }: { task: Task; updateTask: (updatedTask: Task) => void }) {
+function CreateTask({ task, updateTask, deleteTask }: { task: Task; updateTask: (updatedTask: Task) => void; deleteTask: () => void }) {
   const handleIsCheckedChange = () => {
     const updatedTask = { ...task, isDone: !task.isDone };
     updateTask(updatedTask);
@@ -33,6 +33,9 @@ function CreateTask({ task, updateTask }: { task: Task; updateTask: (updatedTask
       </p>
       <input type="checkbox" checked={task.isPrio} onChange={handleIsPrioChange} />
       <label>Prio</label>
+      <button onClick={deleteTask} className="remove-task-button">
+        X
+      </button>
     </div>
   );
 }
@@ -81,6 +84,15 @@ const CreateCalendarGrid = () => {
     }
   };
 
+  const deleteTask = (taskToDelete: Task) => {
+    if (selectedDay !== null) {
+      const updatedTasks = listOfTask.filter((task) => task.taskText !== taskToDelete.taskText);
+
+      setListOfTask(updatedTasks);
+      localStorage.setItem(`MY_TASKS_DAY_${selectedDay}`, JSON.stringify(updatedTasks));
+    }
+  };
+
   const CreateBoxPanel = () => {
     return (
       <div className="box-panel" style={{ visibility: selectedDay !== null ? "visible" : "hidden" }}>
@@ -96,7 +108,9 @@ const CreateCalendarGrid = () => {
         </div>
         <div className="box-panel-container-task">
           {listOfTask.length > 0 ? (
-            listOfTask.map((task, index) => <CreateTask key={index} task={task} updateTask={updateTask} />)
+            listOfTask.map((task, index) => (
+              <CreateTask key={index} task={task} updateTask={updateTask} deleteTask={() => deleteTask(task)} />
+            ))
           ) : (
             <p>No tasks yet</p>
           )}
