@@ -11,26 +11,67 @@
   text-align: center;
 }
   
-.box-note{
+.box-panel{
   position: absolute;
   top: 5%;
   left: 30%;
   width: 50rem;
   height: 50rem;
-  background-color: red;
+  background-color: green;
 }
 
-.box-note-close-button{
+.box-panel-close-button{
   position: absolute;
   margin-left: .3rem;
   margin-top: .3rem;
 }
 
-.box-note-close-button button{
+.box-panel-close-button button{
   width: 2rem;
   height: 2rem;
 }
 
-.box-note-close-button p{
+.box-panel-close-button p{
   margin: 0;
 }
+
+.box-panel-header {
+  position: relative;
+  width: 100%;
+  align-items: center;
+}
+
+.box-panel-input{
+  position: relative;
+  margin-left: 5%;
+  margin-top: 10%;
+  text-align: left;
+}
+
+.box-panel-input input{
+  width: 38rem;
+  height: 1.5rem;
+}
+
+.box-panel-container-task{
+  position: relative;
+}
+
+.box-panel-task{
+  width: auto;
+  display: flex;
+  gap: 10px;
+  margin-left: 5%;
+}
+
+.box-panel-task p{
+  display: inherit;
+  text-align: left;
+  width: 35rem;
+}
+
+.box-panel-task label{
+  display: inherit;
+  align-items: center;  
+}
+
