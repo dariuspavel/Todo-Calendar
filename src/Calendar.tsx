@@ -5,6 +5,7 @@ let currentYear = 2025;
 let currentMonth = 1;
 
 type Task = {
+  id: number;
   isDone: boolean;
   taskText: string;
   isPrio: boolean;
@@ -14,7 +15,11 @@ function DaysInMonth(year: number, month: number) {
   return new Date(year, month, 0).getDate();
 }
 
-function CreateTask({ task, updateTask, deleteTask }: { task: Task; updateTask: (updatedTask: Task) => void; deleteTask: () => void }) {
+function CreateTask({ task, updateTask, deleteTask }: { 
+  task: Task; 
+  updateTask: (updatedTask: Task) => void; 
+  deleteTask: () => void; 
+}) {
   const handleIsCheckedChange = () => {
     const updatedTask = { ...task, isDone: !task.isDone };
     updateTask(updatedTask);
@@ -60,23 +65,24 @@ const CreateCalendarGrid = () => {
   const HandleAddTask = () => {
     if (getInputText.trim() !== "" && selectedDay !== null) {
       const newTask: Task = {
+        id: Date.now(),
         isDone: false,
         taskText: getInputText,
         isPrio: false,
       };
-
+  
       const updatedTasks = [...listOfTask, newTask];
       setListOfTask(updatedTasks);
       setInputText("");
-
+  
       localStorage.setItem(`MY_TASKS_DAY_${selectedDay}`, JSON.stringify(updatedTasks));
     }
   };
 
-  const updateTask = (updatedTask: Task) => {
+  const UpdateTask = (updatedTask: Task) => {
     if (selectedDay !== null) {
       const updatedTasks = listOfTask.map((task) =>
-        task.taskText === updatedTask.taskText ? updatedTask : task
+        task.id === updatedTask.id ? updatedTask : task
       );
 
       setListOfTask(updatedTasks);
@@ -84,10 +90,10 @@ const CreateCalendarGrid = () => {
     }
   };
 
-  const deleteTask = (taskToDelete: Task) => {
+  const DeleteTask = (taskId: number) => {
     if (selectedDay !== null) {
-      const updatedTasks = listOfTask.filter((task) => task.taskText !== taskToDelete.taskText);
-
+      const updatedTasks = listOfTask.filter((task) => task.id !== taskId);
+  
       setListOfTask(updatedTasks);
       localStorage.setItem(`MY_TASKS_DAY_${selectedDay}`, JSON.stringify(updatedTasks));
     }
@@ -95,27 +101,38 @@ const CreateCalendarGrid = () => {
 
   const CreateBoxPanel = () => {
     return (
-      <div className="box-panel" style={{ visibility: selectedDay !== null ? "visible" : "hidden" }}>
-        <div className="box-panel-close-button">
-          <button onClick={() => setSelectedDay(null)}> <p>X</p> </button>
-        </div>
-        <div className="box-panel-header">
-          <h1>To-Do List - Day {selectedDay}</h1>
-        </div>
-        <div className="box-panel-input">
-          <input type="text" placeholder="Add task" value={getInputText} onChange={HandleInputChange} />
-          <button onClick={HandleAddTask}>Add</button>
-        </div>
-        <div className="box-panel-container-task">
-          {listOfTask.length > 0 ? (
-            listOfTask.map((task, index) => (
-              <CreateTask key={index} task={task} updateTask={updateTask} deleteTask={() => deleteTask(task)} />
+      <>
+        {selectedDay !== null && <div className="overlay"></div>}
+
+        <div className="box-panel" style={{ visibility: selectedDay !== null ? "visible" : "hidden" }}>
+          <div className="box-panel-close-button">
+            <button onClick={() => setSelectedDay(null)}> <p>X</p> </button>
+          </div>
+          <div className="box-panel-header">
+            <h1>To-Do List - Day {selectedDay}</h1>
+          </div>
+          <div className="box-panel-input">
+            <input type="text" placeholder="Add task" value={getInputText} onChange={HandleInputChange} />
+            <button onClick={HandleAddTask}>Add</button>
+          </div>
+          <div className="box-panel-container-task">
+            {listOfTask.length > 0 ? (
+              [...listOfTask]
+              .sort((a, b) => Number(b.isPrio) - Number(a.isPrio))
+              .map((task) => (
+                <CreateTask 
+                key={task.id} 
+                task={task} 
+                updateTask={UpdateTask} 
+                deleteTask={() => DeleteTask(task.id)} 
+              />
             ))
-          ) : (
-            <p>No tasks yet</p>
-          )}
+      ) : (
+    <p>No tasks yet</p>
+  )}
+</div>
         </div>
-      </div>
+      </>
     );
   };
 
