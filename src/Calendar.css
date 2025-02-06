@@ -1,130 +1,254 @@
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 columns for days of the week */
-    gap: 10px;
-  }
-  
-.calendar-day {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: center;
+.middle-side-div {
+  border-color: #007bff;
+  border-width: 20px;
+  border-radius: 50%;
 }
 
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 columns for days of the week */
+  gap: 10px;
+}
+
+.calendar-day {
+padding: 15px 25px;
+border: unset;
+z-index: 1;
+position: relative;
+font-weight: 1000;
+font-size: 17px;
+-webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+transition: all 250ms;
+overflow: hidden;
+background-color: #f3f7fe;
+  color: #3b82f6;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  height: 3rem;
+  transition: 0.3s;
+
+}
+
+.calendar-day:hover {
+  background-color: #3b82f6;
+  box-shadow: 0 0 0 5px #3b83f65f;
+  color: #fff;
+}
+
+.calendar-day.today-highlight {
+  box-shadow: 0 0 15px 2px gold;
+  background-color: rgba(255, 215, 0, .9);
+  color: white;
+  }
+
 .box-panel{
-  transform: translate(-50%, -50%);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 50rem;
-  height: 50rem;
-  max-height: 50rem;
-  background-color: green;
-  z-index: 20;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+transform: translate(-50%, -50%);
+position: fixed;
+top: 50%;
+left: 50%;
+width: 50rem;
+height: 50rem;
+max-height: 50rem;
+background-color: #212121;
+z-index: 20;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+overflow: hidden;
+display: flex;
+flex-direction: column;
+
 }
 
 .box-panel-close-button{
-  position: absolute;
-  top: 0.5rem;
-  left: 0.5rem;
-  z-index: 21;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  font-weight: bold;
-  
+position: absolute;
+top: 0.5rem;
+left: 0.5rem;
+z-index: 21;
+border: none;
+cursor: pointer;
+padding: 0.5rem;
+font-weight: bold;
 }
 
 .box-panel-close-button button{
-  width: 2rem;
-  height: 2rem;
+width: 2rem;
+height: 2rem;
+border: unset;
+border-radius: 10px;
+color: #212121;
+z-index: 21;
+background: #e8e8e8;
+position: relative;
+font-weight: 1000;
+-webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+overflow: hidden;
+cursor: pointer;
 }
 
 .box-panel-close-button p{
-  margin: 0;
+margin: 0;
 }
 
 .box-panel-header {
-  position: relative;
-  width: 100%;
-  align-items: center;
+position: relative;
+width: 100%;
+align-items: center;
 }
 
 .box-panel-input{
-  position: relative;
-  margin-left: 5%;
-  margin-top: 10%;
-  text-align: left;
+position: relative;
+margin-left: 5%;
+margin-right: 5%;
+margin-top: 5%;
+text-align: left;
+display: flex;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #3D3D3D;
+  padding: 9px;
+  cursor: text;
 }
 
 .box-panel-input input{
-  width: 38rem;
+width: 38rem;
+height: 1.5rem;
+outline: none;
+  border: none;
+  background: none;
+  color: rgb(162, 162, 162);
+}
+
+.box-panel-input button{
+  width: 5rem;
   height: 1.5rem;
+  border: unset;
+  z-index: 1;
+  position: relative;
+  font-weight: 1000;
+  font-size: 15px;
+  overflow: hidden;
+  background-color: #f3f7fe;
+  color: #3D3D3D;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-left: 1%;
 }
 
 .box-panel-container-task{
-  position: relative;
-  overflow-y: auto;
-  padding-right: 10px;
+position: relative;
+overflow-y: auto;
+padding-right: 10px;
 }
 
 .box-panel-container-task::-webkit-scrollbar {
-  width: 8px;
+width: 8px;
 }
 
 .box-panel-container-task::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
+background-color: rgba(0, 0, 0, 0.3);
+border-radius: 5px;
 }
 
 .box-panel-container-task::-webkit-scrollbar-track {
-  background-color: rgba(0, 0, 0, 0.1);
+background-color: rgba(0, 0, 0, 0.1);
 }
 
 .box-panel-task{
-  width: auto;
-  display: flex;
-  gap: 10px;
-  margin-left: 5%;
-  align-items: center;
+width: auto;
+display: flex;
+gap: 5px;
+margin-left: 5%;
+align-items: center;
+
 }
 
 .box-panel-task p{
-  display: inherit;
-  text-align: left;
-  width: 35rem;
+display: inherit;
+text-align: left;
+width: 37rem;
+font-weight: 700;
+color: #a2a2a2;
 }
 
 .box-panel-task label{
-  display: inherit;
-  align-items: center;  
+display: inherit;
+align-items: center;  
+}
+
+.box-panel-task-checkbox{
+position: relative;
+top: 0;
+left: 0;
+height: 1.3em;
+width: 1.3em;
+background-color: #2196F300;
+border-radius: 0.25em;
 }
 
 .remove-task-button {
-  background-color: red;
-  color: white;
-  border: none;
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  padding: 0;
-  font-size: 12px;
-  line-height: 20px;
-  text-align: center;
+background-color: red;
+color: white;
+border: none;
+cursor: pointer;
+width: 20px;
+height: 20px;
+border-radius: 50%;
+padding: 0;
+font-size: 12px;
+line-height: 20px;
+text-align: center;
+margin-left: 1.5%;
+font-weight: 800;
 }
 
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); 
-  z-index: 10; 
-  pointer-events: auto;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.6);
+backdrop-filter: blur(10px);
+z-index: 5;
+}
+
+.calendar-navigation {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 1rem;
+font-size: 1.2rem;
+font-weight: bold;
+color: black;
+}
+
+
+.calendar-navigation button {
+background-color: #007bff;
+color: white;
+border: none;
+padding: 0.5rem 1rem;
+cursor: pointer;
+font-size: 1rem;
+border-radius: 5px;
+font-weight: 700;
+}
+
+.today-button {
+background-color: #28a745;
+color: white;
+border: none;
+padding: 0.5rem 1rem;
+cursor: pointer;
+font-size: 1rem;
+border-radius: 5px;
+}
+
+.today-button:hover {
+background-color: gold;
 }
