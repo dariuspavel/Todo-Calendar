@@ -26,11 +26,9 @@ const CreateTask = ({ task, updateTask, deleteTask }: {
       <label>Prio</label>
       <button onClick={deleteTask} className="remove-task-button">X</button>
   </div>
-  
 );
 
 const CreateCalendarGrid = () => {
-
   const today = new Date();
 
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
@@ -88,7 +86,6 @@ const CreateCalendarGrid = () => {
       const updatedTasks = listOfTask.map((task) => 
         task.id === updatedTask.id ? updatedTask : task
       );
-      
       setListOfTask(updatedTasks);
       localStorage.setItem(`MY_TASKS_${currentYear}_${currentMonth}_${selectedDay}`, JSON.stringify(updatedTasks));
     }
@@ -120,10 +117,15 @@ const CreateCalendarGrid = () => {
             currentYear === today.getFullYear() &&
             currentMonth === today.getMonth() + 1 &&
             dayNumber === today.getDate();
+
+          // Check if the day has tasks in local storage
+          const storedTasks = localStorage.getItem(`MY_TASKS_${currentYear}_${currentMonth}_${dayNumber}`);
+          const hasTasks = storedTasks ? JSON.parse(storedTasks).length > 0 : false;
+
           return (
             <div
               key={dayNumber}
-              className={`calendar-day ${isToday ? "today-highlight" : ""}`}
+              className={`calendar-day ${isToday ? "today-highlight" : ""} ${hasTasks ? "has-task" : ""}`}
               onClick={() => setSelectedDay(dayNumber)}
             >
               Day {dayNumber}
@@ -156,25 +158,24 @@ const CreateCalendarGrid = () => {
               <button onClick={handleAddTask}>Add</button>
             </div>
             <div className="box-panel-container-task">
-            {listOfTask.length > 0 ? (
-  [...listOfTask]
-    .sort((a, b) => {
-      if (a.isDone !== b.isDone) return a.isDone ? 1 : -1;
-
-      if (a.isPrio !== b.isPrio) return b.isPrio ? 1 : -1;
-      return 0;
-    })
-    .map((task) => (
-      <CreateTask
-        key={task.id}
-        task={task}
-        updateTask={updateTask}
-        deleteTask={() => deleteTask(task.id)}
-      />
-    ))
-) : (
-  <p>No tasks yet</p>
-)}
+              {listOfTask.length > 0 ? (
+                [...listOfTask]
+                  .sort((a, b) => {
+                    if (a.isDone !== b.isDone) return a.isDone ? 1 : -1;
+                    if (a.isPrio !== b.isPrio) return b.isPrio ? 1 : -1;
+                    return 0;
+                  })
+                  .map((task) => (
+                    <CreateTask
+                      key={task.id}
+                      task={task}
+                      updateTask={updateTask}
+                      deleteTask={() => deleteTask(task.id)}
+                    />
+                  ))
+              ) : (
+                <p>No tasks yet</p>
+              )}
             </div>
           </div>
         </>
@@ -184,9 +185,7 @@ const CreateCalendarGrid = () => {
 };
 
 export const DisplayCalendar = () => (
-  <>
-    <div className="middle-side-div">
-      <CreateCalendarGrid />
-    </div>
-  </>
+  <div className="middle-side-div">
+    <CreateCalendarGrid />
+  </div>
 );

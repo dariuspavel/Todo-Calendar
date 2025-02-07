@@ -252,3 +252,85 @@ border-radius: 5px;
 .today-button:hover {
 background-color: gold;
 }
+
+.has-task {
+  background-color: red !important;
+  color: white;
+}
+
+@media (max-width: 1024px) { /* Tablet */
+  .calendar-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+  }
+
+  .box-panel {
+    width: 90%;
+    height: 40rem;
+    max-height: 40rem;
+  }
+
+  .box-panel-input input {
+    width: 80%;
+  }
+
+  .box-panel-input button {
+    width: 20%;
+  }
+
+  .calendar-navigation {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) { /* Mobile */
+  .calendar-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+
+  .calendar-day {
+    padding: 10px 15px;
+    font-size: 14px;
+    height: 2.5rem;
+  }
+
+  .box-panel {
+    width: 90%;
+    height: 35rem;
+    max-height: 35rem;
+  }
+
+  .box-panel-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .box-panel-input {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .box-panel-input input {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .box-panel-input button {
+    width: 100%;
+  }
+
+  .calendar-navigation {
+    flex-direction: row;
+    font-size: 0.9rem;
+  }
+  
+  .calendar-navigation button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    margin: 3px;
+  }
+
+  .today-button {
+    font-size: 0.9rem;
+  }
+}
