@@ -1,3 +1,11 @@
+:root {
+  background-color: whitesmoke;
+}
+
+body {
+  background-color: whitesmoke;
+}
+
 .middle-side-div {
   border-color: #007bff;
   border-width: 20px;
