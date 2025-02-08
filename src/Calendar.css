@@ -172,7 +172,6 @@ display: flex;
 gap: 5px;
 margin-left: 5%;
 align-items: center;
-
 }
 
 .box-panel-task p{
@@ -181,7 +180,21 @@ text-align: left;
 width: 37rem;
 font-weight: 700;
 color: #a2a2a2;
+overflow-x: scroll;
 }
+
+.box-panel-task p::-webkit-scrollbar {
+  width: 8px;
+  }
+  
+  .box-panel-task p::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  }
+  
+  .box-panel-task p::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1);
+  }
 
 .box-panel-task label{
 display: inherit;
