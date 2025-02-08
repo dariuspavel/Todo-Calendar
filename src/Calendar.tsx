@@ -12,22 +12,24 @@ function DaysInMonth(year: number, month: number) {
   return new Date(year, month, 0).getDate();
 }
 
-const CreateTask = ({ task, updateTask, deleteTask }: { 
+// Task component to render individual tasks
+const CreateTask = ({ task, UpdateTask, DeleteTask }: { 
   task: Task; 
-  updateTask: (updatedTask: Task) => void; 
-  deleteTask: () => void; 
+  UpdateTask: (updatedTask: Task) => void; 
+  DeleteTask: () => void; 
 }) => (
   <div className="box-panel-task">
-      <input className="box-panel-task-checkbox" type="checkbox" checked={task.isDone} onChange={() => updateTask({ ...task, isDone: !task.isDone })} />
+      <input className="box-panel-task-checkbox" type="checkbox" checked={task.isDone} onChange={() => UpdateTask({ ...task, isDone: !task.isDone })} />
       <p style={{ textDecoration: task.isDone ? "line-through" : "none", color: task.isPrio ? "red" : "white" }}>
         {task.taskText}
       </p>
-      <input className="box-panel-task-checkbox" type="checkbox" checked={task.isPrio} onChange={() => updateTask({ ...task, isPrio: !task.isPrio })} />
+      <input className="box-panel-task-checkbox" type="checkbox" checked={task.isPrio} onChange={() => UpdateTask({ ...task, isPrio: !task.isPrio })} />
       <label>Prio</label>
-      <button onClick={deleteTask} className="remove-task-button">X</button>
+      <button onClick={DeleteTask} className="remove-task-button">X</button>
   </div>
 );
 
+// Calendar component that renders the grid and task list
 const CreateCalendarGrid = () => {
   const today = new Date();
 
@@ -39,6 +41,7 @@ const CreateCalendarGrid = () => {
   
   const totalDays = DaysInMonth(currentYear, currentMonth);
 
+   // Load tasks from local storage when a new day is selected
   useEffect(() => {
     if (selectedDay !== null) {
       const savedTasks = localStorage.getItem(`MY_TASKS_${currentYear}_${currentMonth}_${selectedDay}`);
@@ -46,7 +49,8 @@ const CreateCalendarGrid = () => {
     }
   }, [selectedDay, currentYear, currentMonth]);
 
-  const handleNavigation = (type: string) => {
+   // Function to handle navigation (next/previous month, year, or today)
+  const HandleNavigation = (type: string) => {
     if (type === "prev-year") setCurrentYear(currentYear - 1);
     if (type === "next-year") setCurrentYear(currentYear + 1);
     if (type === "prev-month") {
@@ -71,7 +75,8 @@ const CreateCalendarGrid = () => {
     }
   };
 
-  const handleAddTask = () => {
+   // Function to add a new task
+  const HandleAddTask = () => {
     if (getInputText.trim() !== "" && selectedDay !== null) {
       const newTask: Task = { id: Date.now(), isDone: false, taskText: getInputText, isPrio: false };
       const updatedTasks = [...listOfTask, newTask];
@@ -81,7 +86,8 @@ const CreateCalendarGrid = () => {
     }
   };
 
-  const updateTask = (updatedTask: Task) => {
+   // Function to update a task
+  const UpdateTask = (updatedTask: Task) => {
     if (selectedDay !== null) {
       const updatedTasks = listOfTask.map((task) => 
         task.id === updatedTask.id ? updatedTask : task
@@ -91,7 +97,8 @@ const CreateCalendarGrid = () => {
     }
   };
 
-  const deleteTask = (taskId: number) => {
+  // Function to delete a task
+  const DeleteTask = (taskId: number) => {
     if (selectedDay !== null) {
       const updatedTasks = listOfTask.filter((task) => task.id !== taskId);
       setListOfTask(updatedTasks);
@@ -102,12 +109,12 @@ const CreateCalendarGrid = () => {
   return (
     <>
       <div className="calendar-navigation">
-        <button onClick={() => handleNavigation("prev-year")}>{"<<"}</button>
-        <button onClick={() => handleNavigation("prev-month")}>{"<"}</button>
+        <button onClick={() => HandleNavigation("prev-year")}>{"<<"}</button>
+        <button onClick={() => HandleNavigation("prev-month")}>{"<"}</button>
         <span>{`${currentYear} - ${new Date(currentYear, currentMonth - 1).toLocaleString("en-US", { month: "long" })}`}</span>
-        <button onClick={() => handleNavigation("today")} className="today-button">Today</button>
-        <button onClick={() => handleNavigation("next-month")}>{">"}</button>
-        <button onClick={() => handleNavigation("next-year")}>{">>"}</button>
+        <button onClick={() => HandleNavigation("today")} className="today-button">Today</button>
+        <button onClick={() => HandleNavigation("next-month")}>{">"}</button>
+        <button onClick={() => HandleNavigation("next-year")}>{">>"}</button>
       </div>
 
       <div className="calendar-grid">
@@ -118,7 +125,6 @@ const CreateCalendarGrid = () => {
             currentMonth === today.getMonth() + 1 &&
             dayNumber === today.getDate();
 
-          // Check if the day has tasks in local storage
           const storedTasks = localStorage.getItem(`MY_TASKS_${currentYear}_${currentMonth}_${dayNumber}`);
           const hasTasks = storedTasks ? JSON.parse(storedTasks).length > 0 : false;
 
@@ -155,7 +161,7 @@ const CreateCalendarGrid = () => {
                 value={getInputText}
                 onChange={(e) => setInputText(e.target.value)}
               />
-              <button onClick={handleAddTask}>Add</button>
+              <button onClick={HandleAddTask}>Add</button>
             </div>
             <div className="box-panel-container-task">
               {listOfTask.length > 0 ? (
@@ -169,8 +175,8 @@ const CreateCalendarGrid = () => {
                     <CreateTask
                       key={task.id}
                       task={task}
-                      updateTask={updateTask}
-                      deleteTask={() => deleteTask(task.id)}
+                      UpdateTask={UpdateTask}
+                      DeleteTask={() => DeleteTask(task.id)}
                     />
                   ))
               ) : (
